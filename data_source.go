@@ -50,7 +50,7 @@ func (s *StructData) Set(filed string, val interface{}) error {
 	return nil
 }
 
-//validate instance create func 创建验证实体函数
+//validate1 instance create func 创建验证实体函数
 func (s *StructData) Create(err ...error) *Validation {
 	return nil
 }
@@ -60,7 +60,7 @@ func (s *StructData) Validation(err ...error) *Validation {
 		return v.WithErr(err[0])
 	}
 
-	// collect field filter/validate rules from struct tags
+	// collect field filter/validate1 rules from struct tags
 	s.parseRulesFromTag(v)
 
 	return v
