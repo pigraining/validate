@@ -1,6 +1,7 @@
 package validate
 
 import (
+	"fmt"
 	"reflect"
 	"time"
 )
@@ -54,5 +55,37 @@ func (s *StructData) Create(err ...error) *Validation {
 	return nil
 }
 func (s *StructData) Validation(err ...error) *Validation {
-	return nil
+	v := NewValidation(s)
+	if len(err) > 0 && err[0] != nil {
+		return v.WithErr(err[0])
+	}
+
+	// collect field filter/validate rules from struct tags
+	s.parseRulesFromTag(v)
+
+	return v
+}
+func (s *StructData) parseRulesFromTag(v *Validation) {
+	if s.ValidateTag == "" {
+		s.ValidateTag = globalOpt.ValidateTag
+	}
+	if s.FilterTag == "" {
+		s.FilterTag = globalOpt.FilterTag
+	}
+	vt := s.valueTpy
+	for i := 0; i < vt.NumField(); i++ {
+		name := vt.Field(i).Name
+		if name[0] >= 'a' && name[0] <= 'z' {
+			continue
+		}
+		s.fieldNames[name] = 1
+		vRule := vt.Field(i).Tag.Get(s.ValidateTag)
+		if vRule != "" {
+			fmt.Println(vRule)
+		}
+		fRule := vt.Field(i).Tag.Get(s.FilterTag)
+		if fRule != ""{
+			fmt.Println(fRule)
+		}
+	}
 }

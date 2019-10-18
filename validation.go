@@ -81,14 +81,17 @@ type Validation struct {
 }
 
 func NewEmptyValidate(scean ...string)*Validation{
-	return NewValidate(nil,scean...)
+	return NewValidation(nil,scean...)
 }
 
-func NewValidate(data DataFace,scean ...string)*Validation{
+func NewValidation(data DataFace,scean ...string)*Validation{
 	v := &Validation{
 		data:data,
 		Errors:make(Errors),
-
+		trans:NewTranslator(),
+	}
+	v.validatorValues = map[string]reflect.Value{
+		//"required":reflect.ValueOf()
 	}
 	v.SetCence(scean...)
 	return v
@@ -98,9 +101,9 @@ func NewValidate(data DataFace,scean ...string)*Validation{
 func NewWithError(data DataFace,err error)*Validation{
 	if data == nil{
 		if err != nil{
-			return NewValidate(data)
+			return NewValidation(data).WithErr(err)
 		}
-		return NewValidate(data)
+		return NewValidation(data)
 	}
 	return data.Validation()
 }
