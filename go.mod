@@ -1,3 +1,3 @@
-module project/validate
+module validate
 
 go 1.12
