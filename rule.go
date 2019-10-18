@@ -1,5 +1,15 @@
 package validate
 
+import "strings"
+
+type Rules []*Rule
+
+/*
+************************************************
+				Rule Struct
+************************************************
+*/
+
 // Rule definition
 type Rule struct {
 	// eg "create" "update"
@@ -34,3 +44,40 @@ type Rule struct {
 	// custom check is empty.
 	emptyChecker func(val interface{}) bool
 }
+
+func NewRule(fields, validator string, args ...interface{}) *Rule {
+	return &Rule{
+		fields:    strings.Split(fields, ","),
+		arguments: args,
+		validator: validator,
+	}
+}
+/*************************************************************
+ * add validate rules
+ *************************************************************/
+
+// StringRule add field rules by string
+// Usage:
+// 	v.StringRule("name", "required|string|minLen:6")
+// 	// will try convert to int before apply validate.
+// 	v.StringRule("age", "required|int|min:12", "toInt")
+func (v *Validation) StringRule(filed, rule string, filterRule ...string) *Validation {
+	rules := strings.Split(rule, "|")
+	for _,validator := range rules{
+		if strings.Contains(validator,":"){
+
+		}else {
+
+		}
+	}
+	return nil
+}
+
+
+func(v *Validation)AddRule(fields, validator string, args ...interface{})*Rule{
+	rule := NewRule(fields,validator,args...)
+	v.rules = append(v.rules,rule)
+	return rule
+}
+
+

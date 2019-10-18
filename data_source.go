@@ -50,7 +50,7 @@ func (s *StructData) Set(filed string, val interface{}) error {
 	return nil
 }
 
-//validate1 instance create func 创建验证实体函数
+//validate instance create func 创建验证实体函数
 func (s *StructData) Create(err ...error) *Validation {
 	return nil
 }
@@ -81,7 +81,10 @@ func (s *StructData) parseRulesFromTag(v *Validation) {
 		s.fieldNames[name] = 1
 		vRule := vt.Field(i).Tag.Get(s.ValidateTag)
 		if vRule != "" {
+
 			fmt.Println(vRule)
+
+
 		}
 		fRule := vt.Field(i).Tag.Get(s.FilterTag)
 		if fRule != ""{
